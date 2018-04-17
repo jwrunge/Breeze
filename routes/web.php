@@ -11,6 +11,28 @@
 |
 */
 
-$router->get('/', function () use ($router) {
+/**
+ * GET routes
+ */
+$router->get('/', function() {
+    return redirect('/people');
+});
+
+$router->get('/people', function() {
+    $people = \App\People::take(25)->get();
+    return view('people')->with('people', $people);
+});
+
+$router->get('/groups', function() {
     return $router->app->version();
 });
+
+$router->get('/report', function() {
+    return $router->app->version();
+});
+
+/**
+ * POST routes
+ */
+$router->post('/command/addpeoplecsv', 'Controller@handle_people_csv');
+$router->post('/command/addgroupscsv', 'Controller@handle_groups_csv');

@@ -11,7 +11,7 @@ class GroupTest extends TestCase
     public function test_add_and_modify_multiple_groups()
     {
         //Supply group data
-        $peopledata = [
+        $groupdata = [
             [
                 'group_id' => 1,
                 'group_name' => 'Bible Study'
@@ -27,20 +27,20 @@ class GroupTest extends TestCase
         ];
 
         //Post to database
-        $this->json('POST', '/command/addgroupscsv', $peopledata);
+        $this->json('POST', '/command/addgroupscsv', $groupdata);
 
         //Modify group data
-        $peopledata[0] = [ 
+        $groupdata[0] = [ 
             'group_id' => 1,
             'group_name' => 'Spaghetti Dinner' 
         ];
-        array_push($people_data, [
+        array_push($groupdata, [
             'group_id' => 10,
             'group_name' => 'Outreach'
         ]);
 
         //Post to database
-        $this->json('POST', '/command/addgroupscsv', $peopledata);
+        $this->json('POST', '/command/addgroupscsv', $groupdata);
 
         //Make sure both modified and added groups are present (Group 1 should be modified, 3 should be the same, 10 should be new)
         $this->seeInDatabase('groups', ['group_id' => 1, 'group_name' => 'Spaghetti Dinner']);

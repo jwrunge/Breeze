@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Http\Request as Request;
+use League\Csv\Reader as Reader;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
@@ -14,21 +15,61 @@ class Controller extends BaseController
      * These functions are not meant to be called from a route; they are to be used only by other class methods
      */
     protected function add_people($people) {
-        //Add people, return report
+        if(array_key_exists('person_id', $people)) {
+            \App\People::updateOrCreate(['person_id' => $people['person_id']], $people);
+        }
+        else {
+            foreach($people as $person) {
+                \App\People::updateOrCreate(['person_id' => $person['person_id']], $person);
+            }
+        }
     }
 
     protected function add_groups($groups) {
-        //Add group, return report
+        if(array_key_exists('group_id', $groups)) {
+            \App\Group::updateOrCreate(['group_id' => $groups['group_id']], $groups);
+        }
+        else {
+            foreach($groups as $group) {
+                \App\Group::updateOrCreate(['group_id' => $group['group_id']], $group);
+            }
+        }
     }
 
     /**
      * These are to be accessible via the request routes
      */
     public function handle_people_csv(Request $request) {
-        //Load a CSV file for people, pass to add_people
+        //If a CSV file was loaded
+        if($request->hasFile('people_csv')) {
+            //check file validity
+
+            //Parse CSV
+            $csv = Reader::createFromPath($request->file('people_csv')->path(), 'r');
+            $csv->setHeaderOffset(0);
+            $this->add_people($csv);
+        }
+        else {
+            $this->add_people($request->all());
+        }
+
+        return view('report');
     }
 
     public function handle_groups_csv(Request $request) {
-        //Load a CSV file for groups, pass to add_groups
+        //If a CSV file was loaded
+        if($request->hasFile('group_csv')) {
+            //check file validity
+
+            //Parse CSV
+            $csv = Reader::createFromPath($request->file('group_csv')->path(), 'r');
+            $csv->setHeaderOffset(0);
+            $this->add_groups($csv);
+        }
+        else {
+            $this->add_groups($request->all());
+        }
+
+        return view('report');
     }
 }

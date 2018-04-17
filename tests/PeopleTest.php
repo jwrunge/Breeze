@@ -43,7 +43,7 @@ class PeopleTest extends TestCase
             'email_address' => 'jwrunge@gmail.com',
         ];
 
-        array_push($people_data, [
+        array_push($peopledata, [
             'person_id' => 10,
             'first_name' => 'Max',
             'last_name' => 'Runge',
