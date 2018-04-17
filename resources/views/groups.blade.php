@@ -14,8 +14,8 @@
 
 <table class='table rounded my-4'>
     <thead>
-        <th class='sorter' data-orderby='group_id' scope='col'>id</th>
-        <th class='sorter' data-orderby='group_name' scope='col'>name</th>
+        <th class='sorter selected' data-orderby='group_id' scope='col'>&#8616; id</th>
+        <th class='sorter' data-orderby='group_name' scope='col'>&#8616; name</th>
         <th scope='col'>members</th>
     </thead>
     <tbody id='fillable'>

@@ -14,7 +14,7 @@
 
 <table class='table rounded my-4'>
     <thead>
-        <th class='sorter' data-orderby='person_id' scope='col'>id</th>
+        <th class='sorter selected' data-orderby='person_id' scope='col'>id</th>
         <th class='sorter' data-orderby='last_name' scope='col'>name</th>
         <th scope='col'>group</th>
         <th class='sorter' data-orderby='state' scope='col'>state</th>

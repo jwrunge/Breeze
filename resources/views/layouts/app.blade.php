@@ -48,6 +48,14 @@
             background-color: lightskyblue;
         }
 
+        .sorter.selected {
+            background-color: rgb(240,240,255);
+        }
+
+        .sorter.selected.reverse {
+            background-color: rgb(240,255,240);
+        }
+
     </style>
 
 </head>
@@ -104,11 +112,25 @@
             var sortorder = 'asc';
 
             //handle sort reversing
-            if(sorter.hasClass('reverse')) {
-                sorter.removeClass('reverse');
-                sortorder = 'desc';
+            if(sorter.hasClass('selected')) {
+                if(sorter.hasClass('reverse')) {
+                    sorter.removeClass('reverse');
+                }
+                else {
+                    sorter.addClass('reverse');
+                }
             }
-            else sorter.addClass('reverse');
+            else sorter.removeClass('reverse');
+
+            if(sorter.hasClass('reverse')) sortorder = 'desc';
+
+            //Remove selected class from all sorters
+            $('.sorter').each(function() {
+                $(this).removeClass('selected');
+            })
+
+            //Add selected class to current sorter
+            sorter.addClass('selected');
 
             $.ajax({
                 url: '/command/searchdb',
