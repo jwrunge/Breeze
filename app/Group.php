@@ -17,6 +17,6 @@ class Group extends Model
 
     //Relationship to People
     public function members() {
-        return $this->hasMany('App\People');
+        return $this->hasMany('App\People', 'person_id', 'group_id');
     }
 }

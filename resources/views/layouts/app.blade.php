@@ -89,7 +89,7 @@
                 url: '/command/searchdb',
                 method: 'post',
                 dataType: 'html',
-                data: { search: 'people', value: $('#search').val() },
+                data: { search: $('#search').attr('data-db'), value: $('#search').val() },
                 beforeSend: function() {
                     //console.log('presend');
                 },
@@ -105,9 +105,10 @@
                 url: '/command/searchdb',
                 method: 'post',
                 dataType: 'html',
-                data: { search: 'people', orderedby: sorter.attr('data-orderby'), value: $('#search').val() },
+                data: { search: $('#search').attr('data-db'), orderedby: sorter.attr('data-orderby'), value: $('#search').val() },
                 beforeSend: function() {
-                    //console.log('presend');
+                    console.log('wahtever')
+                    console.log($('#search').attr('data-db') + '!');
                 },
                 complete: function(response) {
                     $('#fillable').html(response.responseText);

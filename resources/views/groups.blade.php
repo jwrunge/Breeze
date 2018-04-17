@@ -24,7 +24,7 @@
                 <td>{{ $group->group_id }}</td>
                 <td>{{ $group->group_name }}</td>
                 @if(isset($group->members)) 
-                    <td>{{count($group->members) }}</td>
+                    <td>{{ count($group->members) }}</td>
                 @else <td>0</td>
                 @endif
             </tr>

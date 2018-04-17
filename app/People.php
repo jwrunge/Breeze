@@ -17,6 +17,6 @@ class People extends Model
 
     //Relationship to Groups
     public function group() {
-        return $this->belongsTo('App\Group');
+        return $this->belongsTo('App\Group', 'group_id');
     }
 }
