@@ -72,4 +72,26 @@ class Controller extends BaseController
 
         return view('report');
     }
+
+    public function searchdb(Request $request) {
+
+        if($request->input('search') === 'people') {
+            $results = \App\People::where('first_name', 'like', '%'.$request->input('value').'%')
+                ->orWhere('last_name', 'like', '%'.$request->input('value').'%')
+                ->orWhere('person_id', 'like', '%'.$request->input('value').'%')
+                ->orWhere(\DB::raw("CONCAT_WS(' ', first_name, last_name)"), 'like', '%'.$request->input('value').'%')
+                ->orWhere(\DB::raw("CONCAT_WS(', ', last_name, first_name)"), 'like', '%'.$request->input('value').'%')
+                ->take(25)->get();
+
+            $html = '';
+            foreach($results as $result) {
+                $html .= "<tr><td>"
+                    .$result->person_id
+                    ."</td><td>".$result->last_name.", ".$result->first_name
+                    ."</td><td>none"
+                    ."</td><td>".$result->status."</td></tr>";
+            }
+            return $html;
+        }
+    }
 }

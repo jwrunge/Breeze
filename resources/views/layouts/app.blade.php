@@ -10,9 +10,41 @@
     <!-- Styles -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
         main {
             max-width: 1000px;
             margin: 0 auto;
+            padding: 1em;
+        }
+
+        header {
+            background-color: #334551;
+            color: white;
+        }
+
+        header a {
+            color: white;
+        }
+
+        header a:hover {
+            color: lightskyblue;
+            text-decoration: none;
+        }
+
+        header a:visited {
+            color: white;
+        }
+
+        header img {
+            margin: 1em;
+            max-width: 100px;
+        }
+
+        header .toplinks a {
+            margin: 1em;
         }
 
     </style>
@@ -20,8 +52,13 @@
 </head>
 <body>
     <div id="app">
-        <header></header>
-        <nav></nav>
+        <header class='d-flex justify-content-between align-items-center'>
+            <img src='/images/bcm_logo.png' alt='Breeze logo'/>
+            <div class='toplinks d-inline-block'>
+                <a href='people'>People</a>
+                <a href='groups'>Groups</a>
+            </div>
+        </header>
         <main class="p-4">
             @yield('content')
         </main>
@@ -44,6 +81,21 @@
 
         $('#fileinput').on('change', function() {
             $('#fileform').submit();
+        });
+
+        $('#search').on('change keyup', function() {
+            $.ajax({
+                url: '/command/searchdb',
+                method: 'post',
+                dataType: 'html',
+                data: { search: 'people', value: $('#search').val() },
+                beforeSend: function() {
+                    //console.log('presend');
+                },
+                complete: function(response) {
+                    $('#fillable').html(response.responseText);
+                }
+            });
         });
     </script>
 
