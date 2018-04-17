@@ -125,8 +125,8 @@ class Controller extends BaseController
             $html = '';
             foreach($results as $result) {
                 $membercount = 0;
-                if(isset($group->members))
-                    $membercount = count($group->members);
+                if(isset($result->members))
+                    $membercount = count($result->members);
 
                 //Load html response
                 $html .= "<tr><td>"
