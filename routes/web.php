@@ -24,8 +24,8 @@ $router->get('/people', function() {
 });
 
 $router->get('/groups', function() {
-    $people = \App\People::take(25)->get();
-    return view('groups')->with('people', $people);
+    $groups = \App\Group::take(25)->get();
+    return view('groups')->with('groups', $groups);
 });
 
 $router->get('/report', function() {

@@ -107,7 +107,35 @@ class Controller extends BaseController
                     ."</td><td>".$group_affiliation
                     ."</td><td>".$result->state."</td></tr>";
             }
-            return $html;
         }
+
+        else if($request->input('search') === 'group') {
+            //Set order for search
+            $orderby = '';
+            if($request->input('orderedby')) 
+                $orderby = $request->input('orderedby');
+            else
+                $orderby = 'group_id';
+
+            //Get results by matching search string
+            $results = \App\Group::where('group_name', 'like', '%'.$request->input('value').'%')
+                ->orWhere('group_id', 'like', '%'.$request->input('value').'%')
+                ->take(25)->orderBy($orderby)->get();
+
+            $html = '';
+            foreach($results as $result) {
+                $membercount = 0;
+                if(isset($group->members))
+                    $membercount = count($group->members);
+
+                //Load html response
+                $html .= "<tr><td>"
+                    .$result->group_id
+                    ."</td><td>".$result->group_name
+                    ."</td><td>".$membercount."</td></tr>";
+            }
+        }
+
+        return $html;
     }
 }

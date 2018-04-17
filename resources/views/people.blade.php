@@ -31,7 +31,7 @@
                 <td>{{ $person->state }}</td>
             </tr>
         @empty
-            <p>No person data available</p>
+            <tr><td colspan='3'>No person data available</td></tr>
         @endforelse
     </tbody>
 </table>

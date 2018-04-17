@@ -5,33 +5,31 @@
 <h1>Manage Groups</h1>
 
 <div class='form-group d-flex justify-content-center mt-5'>
-    <input id='search' type='text' data-db='people' class='form-control mr-3' placeholder='Find People'/>
-    <form id='fileform' method='post' action='/command/addpeoplecsv' enctype='multipart/form-data'>
+    <input id='search' type='text' data-db='group' class='form-control mr-3' placeholder='Find Groups'/>
+    <form id='fileform' method='post' action='/command/addgroupscsv' enctype='multipart/form-data'>
         <button id='fileinputfacade' class='btn btn-primary'>Upload</button>
-        <input type='file' id='fileinput' name='people_csv' class='d-none'/>
+        <input type='file' id='fileinput' name='group_csv' class='d-none'/>
     </form>
 </div>
 
 <table class='table rounded my-4'>
     <thead>
-        <th class='sorter' data-orderby='person_id' scope='col'>id</th>
-        <th class='sorter' data-orderby='last_name' scope='col'>name</th>
-        <th scope='col'>group</th>
-        <th class='sorter' data-orderby='state' scope='col'>state</th>
+        <th class='sorter' data-orderby='group_id' scope='col'>id</th>
+        <th class='sorter' data-orderby='group_name' scope='col'>name</th>
+        <th scope='col'>members</th>
     </thead>
     <tbody id='fillable'>
-        @forelse($people as $person)
+        @forelse($groups as $group)
             <tr>
-                <td>{{ $person->person_id }}</td>
-                <td>{{ $person->last_name }}, {{ $person->first_name }}</td>
-                @if(isset($person->group)) 
-                    <td>{{ $person->group->group_name }}</td>
-                @else <td>none</td>
+                <td>{{ $group->group_id }}</td>
+                <td>{{ $group->group_name }}</td>
+                @if(isset($group->members)) 
+                    <td>{{count($group->members) }}</td>
+                @else <td>0</td>
                 @endif
-                <td>{{ $person->state }}</td>
             </tr>
         @empty
-            <p>No person data available</p>
+            <tr><td colspan='3'>No group data available</td></tr>
         @endforelse
     </tbody>
 </table>
