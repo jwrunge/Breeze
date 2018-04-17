@@ -74,6 +74,12 @@ class Controller extends BaseController
     }
 
     public function searchdb(Request $request) {
+        //Set ascending/descending
+        $sortorder = '';
+        if($request->input('sortorder'))
+            $sortorder = $request->input('sortorder');
+        else
+            $sortorder = 'asc';
 
         if($request->input('search') === 'people') {
             //Set order for search
@@ -89,7 +95,7 @@ class Controller extends BaseController
                 ->orWhere('person_id', 'like', '%'.$request->input('value').'%')
                 ->orWhere(\DB::raw("CONCAT_WS(' ', first_name, last_name)"), 'like', '%'.$request->input('value').'%')
                 ->orWhere(\DB::raw("CONCAT_WS(', ', last_name, first_name)"), 'like', '%'.$request->input('value').'%')
-                ->take(25)->orderBy($orderby)->get();
+                ->take(25)->orderBy($orderby, $sortorder)->get();
 
             $html = '';
             foreach($results as $result) {
@@ -120,7 +126,7 @@ class Controller extends BaseController
             //Get results by matching search string
             $results = \App\Group::where('group_name', 'like', '%'.$request->input('value').'%')
                 ->orWhere('group_id', 'like', '%'.$request->input('value').'%')
-                ->take(25)->orderBy($orderby)->get();
+                ->take(25)->orderBy($orderby, $sortorder)->get();
 
             $html = '';
             foreach($results as $result) {

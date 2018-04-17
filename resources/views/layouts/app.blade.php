@@ -101,11 +101,20 @@
 
         $('.sorter').on('click', function(){
             var sorter = $(this);
+            var sortorder = 'asc';
+
+            //handle sort reversing
+            if(sorter.hasClass('reverse')) {
+                sorter.removeClass('reverse');
+                sortorder = 'desc';
+            }
+            else sorter.addClass('reverse');
+
             $.ajax({
                 url: '/command/searchdb',
                 method: 'post',
                 dataType: 'html',
-                data: { search: $('#search').attr('data-db'), orderedby: sorter.attr('data-orderby'), value: $('#search').val() },
+                data: { search: $('#search').attr('data-db'), orderedby: sorter.attr('data-orderby'), sortorder: sortorder, value: $('#search').val() },
                 beforeSend: function() {
                     console.log('wahtever')
                     console.log($('#search').attr('data-db') + '!');
