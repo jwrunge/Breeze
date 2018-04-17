@@ -24,7 +24,8 @@ $router->get('/people', function() {
 });
 
 $router->get('/groups', function() {
-    return $router->app->version();
+    $people = \App\People::take(25)->get();
+    return view('groups')->with('people', $people);
 });
 
 $router->get('/report', function() {
@@ -36,3 +37,4 @@ $router->get('/report', function() {
  */
 $router->post('/command/addpeoplecsv', 'Controller@handle_people_csv');
 $router->post('/command/addgroupscsv', 'Controller@handle_groups_csv');
+$router->post('/command/searchdb', 'Controller@searchdb');

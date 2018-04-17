@@ -54,7 +54,7 @@
     <div id="app">
         <header class='d-flex justify-content-between align-items-center'>
             <img src='/images/bcm_logo.png' alt='Breeze logo'/>
-            <div class='toplinks d-inline-block'>
+            <div class='toplinks d-inline-block mr-3'>
                 <a href='people'>People</a>
                 <a href='groups'>Groups</a>
             </div>

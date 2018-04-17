@@ -53,7 +53,7 @@ class Controller extends BaseController
             $this->add_people($request->all());
         }
 
-        return view('report');
+        return view('/people');
     }
 
     public function handle_groups_csv(Request $request) {
@@ -85,11 +85,19 @@ class Controller extends BaseController
 
             $html = '';
             foreach($results as $result) {
+                //Get group name
+                $group_affiliation = '';
+                if(isset($result->group))
+                    $group_affiliation = $result->group->group_name;
+                else
+                    $group_affiliation = 'none';
+
+                //Load html response
                 $html .= "<tr><td>"
                     .$result->person_id
                     ."</td><td>".$result->last_name.", ".$result->first_name
-                    ."</td><td>none"
-                    ."</td><td>".$result->status."</td></tr>";
+                    ."</td><td>".$group_affiliation
+                    ."</td><td>".$result->state."</td></tr>";
             }
             return $html;
         }
