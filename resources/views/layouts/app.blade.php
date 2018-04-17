@@ -34,10 +34,6 @@
             text-decoration: none;
         }
 
-        header a:visited {
-            color: white;
-        }
-
         header img {
             margin: 1em;
             max-width: 100px;
@@ -45,6 +41,11 @@
 
         header .toplinks a {
             margin: 1em;
+        }
+
+        .sorter:hover {
+            cursor: pointer;
+            background-color: lightskyblue;
         }
 
     </style>
@@ -83,12 +84,28 @@
             $('#fileform').submit();
         });
 
-        $('#search').on('change keyup', function() {
+        $('#search').on('keyup', function() {
             $.ajax({
                 url: '/command/searchdb',
                 method: 'post',
                 dataType: 'html',
                 data: { search: 'people', value: $('#search').val() },
+                beforeSend: function() {
+                    //console.log('presend');
+                },
+                complete: function(response) {
+                    $('#fillable').html(response.responseText);
+                }
+            });
+        });
+
+        $('.sorter').on('click', function(){
+            var sorter = $(this);
+            $.ajax({
+                url: '/command/searchdb',
+                method: 'post',
+                dataType: 'html',
+                data: { search: 'people', orderedby: sorter.attr('data-orderby'), value: $('#search').val() },
                 beforeSend: function() {
                     //console.log('presend');
                 },

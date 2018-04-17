@@ -76,12 +76,20 @@ class Controller extends BaseController
     public function searchdb(Request $request) {
 
         if($request->input('search') === 'people') {
+            //Set order for search
+            $orderby = '';
+            if($request->input('orderedby')) 
+                $orderby = $request->input('orderedby');
+            else
+                $orderby = 'person_id';
+
+            //Get results by matching search string
             $results = \App\People::where('first_name', 'like', '%'.$request->input('value').'%')
                 ->orWhere('last_name', 'like', '%'.$request->input('value').'%')
                 ->orWhere('person_id', 'like', '%'.$request->input('value').'%')
                 ->orWhere(\DB::raw("CONCAT_WS(' ', first_name, last_name)"), 'like', '%'.$request->input('value').'%')
                 ->orWhere(\DB::raw("CONCAT_WS(', ', last_name, first_name)"), 'like', '%'.$request->input('value').'%')
-                ->take(25)->get();
+                ->take(25)->orderBy($orderby)->get();
 
             $html = '';
             foreach($results as $result) {

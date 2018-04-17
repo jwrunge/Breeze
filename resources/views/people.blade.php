@@ -14,10 +14,10 @@
 
 <table class='table rounded my-4'>
     <thead>
-        <th scope='col'>id</th>
-        <th scope='col'>name</th>
+        <th class='sorter' data-orderby='person_id' scope='col'>id</th>
+        <th class='sorter' data-orderby='last_name' scope='col'>name</th>
         <th scope='col'>group</th>
-        <th scope='col'>state</th>
+        <th class='sorter' data-orderby='state' scope='col'>state</th>
     </thead>
     <tbody id='fillable'>
         @forelse($people as $person)
