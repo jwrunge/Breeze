@@ -28,10 +28,6 @@ $router->get('/groups', function() {
     return view('groups')->with('groups', $groups);
 });
 
-$router->get('/report', function() {
-    return $router->app->version();
-});
-
 /**
  * POST routes
  */

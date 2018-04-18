@@ -53,7 +53,7 @@ class Controller extends BaseController
             $this->add_people($request->all());
         }
 
-        return view('/people');
+        return redirect('/people');
     }
 
     public function handle_groups_csv(Request $request) {
@@ -70,7 +70,7 @@ class Controller extends BaseController
             $this->add_groups($request->all());
         }
 
-        return view('report');
+        return redirect('/groups');
     }
 
     public function searchdb(Request $request) {
