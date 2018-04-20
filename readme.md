@@ -9,7 +9,7 @@ Just some general information:
 * Sample CSVs are present in the root directory for your convenience
 * I have the working product available to interact with at [206.189.65.39](http://206.189.65.39)
 
-# UPDATES
+# Updates
 I made the following updates, committing to a branch called 'additions' to seperate from my initial submission. I'm updating my live demo to reflect them, but am keeping the branches separate for the sake of your review. Additions include the following:
 * Addition of custom error messages based on non-standard file uploads
 * Two additional tests to ensure single-record uploads work as intended
