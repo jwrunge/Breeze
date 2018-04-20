@@ -15,23 +15,41 @@ class Controller extends BaseController
      * These functions are not meant to be called from a route; they are to be used only by other class methods
      */
     protected function add_people($people) {
+        //If it's a single entry, add or update
         if(array_key_exists('person_id', $people)) {
             \App\People::updateOrCreate(['person_id' => $people['person_id']], $people);
         }
+        //If multiple entries, iterate
         else {
             foreach($people as $person) {
-                \App\People::updateOrCreate(['person_id' => $person['person_id']], $person);
+                //If it's clearly person data, add or update
+                if(array_key_exists('person_id', $person) && array_key_exists('first_name', $person) && array_key_exists('last_name', $person)) {
+                    \App\People::updateOrCreate(['person_id' => $person['person_id']], $person);
+                }
+                //Otherwise, fail gracefully
+                else {
+                    abort(400, "Sorry--we can't process that request. To add a person, you need at minimum to supply a person_id, first_name, and last_name field.");
+                }
             }
         }
     }
 
     protected function add_groups($groups) {
+        //If exists, add or update
         if(array_key_exists('group_id', $groups)) {
             \App\Group::updateOrCreate(['group_id' => $groups['group_id']], $groups);
         }
+        //Otherwise, iterate
         else {
             foreach($groups as $group) {
-                \App\Group::updateOrCreate(['group_id' => $group['group_id']], $group);
+                //If it's clearly group data, add or update
+                if(array_key_exists('group_id', $group) && array_key_exists('group_name', $group)) {
+                    \App\Group::updateOrCreate(['group_id' => $group['group_id']], $group);
+                }
+                //Otherwise, fail gracefully
+                else {
+                    abort(400, "Sorry--we can't process that request. To add a group, you need at minimum to supply a group_id and group_name field.");
+                }
             }
         }
     }
@@ -42,7 +60,10 @@ class Controller extends BaseController
     public function handle_people_csv(Request $request) {
         //If a CSV file was loaded
         if($request->hasFile('people_csv')) {
+
             //check file validity
+            if($request->file('people_csv')->getMimeType() != 'text/csv' && $request->file('people_csv')->getMimeType() != 'text/plain')
+                abort('400', 'Sorry--you can only upload CSV files! No other file type is yet supported.');
 
             //Parse CSV
             $csv = Reader::createFromPath($request->file('people_csv')->path(), 'r');
@@ -59,7 +80,10 @@ class Controller extends BaseController
     public function handle_groups_csv(Request $request) {
         //If a CSV file was loaded
         if($request->hasFile('group_csv')) {
+
             //check file validity
+            if($request->file('group_csv')->getMimeType() !== 'text/csv' && $request->file('group_csv')->getMimeType() !== 'text/plain')
+                abort(400, 'Sorry--you can only upload CSV files! No other file type is yet supported.');
 
             //Parse CSV
             $csv = Reader::createFromPath($request->file('group_csv')->path(), 'r');
@@ -95,6 +119,7 @@ class Controller extends BaseController
                 ->orWhere('person_id', 'like', '%'.$request->input('value').'%')
                 ->orWhere(\DB::raw("CONCAT_WS(' ', first_name, last_name)"), 'like', '%'.$request->input('value').'%')
                 ->orWhere(\DB::raw("CONCAT_WS(', ', last_name, first_name)"), 'like', '%'.$request->input('value').'%')
+                ->orWhere('email_address', 'like', '%'.$request->input('value').'%')
                 ->take(25)->orderBy($orderby, $sortorder)->get();
 
             $html = '';
@@ -110,6 +135,7 @@ class Controller extends BaseController
                 $html .= "<tr><td>"
                     .$result->person_id
                     ."</td><td>".$result->last_name.", ".$result->first_name
+                    ."</td><td>".$result->email_address
                     ."</td><td>".$group_affiliation
                     ."</td><td>".$result->state."</td></tr>";
             }

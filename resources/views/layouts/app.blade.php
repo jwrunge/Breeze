@@ -64,8 +64,8 @@
         <header class='d-flex justify-content-between align-items-center'>
             <img src='/images/bcm_logo.png' alt='Breeze logo'/>
             <div class='toplinks d-inline-block mr-3'>
-                <a href='people'>People</a>
-                <a href='groups'>Groups</a>
+                <a href='/people'>People</a>
+                <a href='/groups'>Groups</a>
             </div>
         </header>
         <main class="p-4">
@@ -92,19 +92,22 @@
             $('#fileform').submit();
         });
 
-        $('#search').on('keyup', function() {
+        function reload_search(search, value, sortorder, orderedby) {
             $.ajax({
                 url: '/command/searchdb',
                 method: 'post',
                 dataType: 'html',
-                data: { search: $('#search').attr('data-db'), value: $('#search').val() },
-                beforeSend: function() {
-                    //console.log('presend');
-                },
+                data: { search: search, orderedby: orderedby, sortorder: sortorder, value: value },
                 complete: function(response) {
                     $('#fillable').html(response.responseText);
                 }
             });
+        }
+
+        var global_search_timeout;
+        $('#search').on('keyup', function() {
+            if(global_search_timeout) window.clearTimeout(global_search_timeout);
+            global_search_timeout = setTimeout(function(){reload_search($('#search').attr('data-db'), $('#search').val(), '', '')}, 500);
         });
 
         $('.sorter').on('click', function(){
@@ -132,19 +135,7 @@
             //Add selected class to current sorter
             sorter.addClass('selected');
 
-            $.ajax({
-                url: '/command/searchdb',
-                method: 'post',
-                dataType: 'html',
-                data: { search: $('#search').attr('data-db'), orderedby: sorter.attr('data-orderby'), sortorder: sortorder, value: $('#search').val() },
-                beforeSend: function() {
-                    console.log('wahtever')
-                    console.log($('#search').attr('data-db') + '!');
-                },
-                complete: function(response) {
-                    $('#fillable').html(response.responseText);
-                }
-            });
+            reload_search($('#search').attr('data-db'), $('#search').val(), sortorder, sorter.attr('data-orderby'));
         });
     </script>
 

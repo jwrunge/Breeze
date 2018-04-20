@@ -14,16 +14,21 @@
 
 <table class='table rounded my-4'>
     <thead>
-        <th class='sorter selected' data-orderby='person_id' scope='col'>id</th>
-        <th class='sorter' data-orderby='last_name' scope='col'>name</th>
+        <th class='sorter selected' data-orderby='person_id' scope='col'>&#8616; id</th>
+        <th class='sorter' data-orderby='last_name' scope='col'>&#8616; name</th>
+        <th class='sorter' data-orderby='email_address' scope='col'>&#8616; email</th>
         <th scope='col'>group</th>
-        <th class='sorter' data-orderby='state' scope='col'>state</th>
+        <th class='sorter' data-orderby='state' scope='col'>&#8616; state</th>
     </thead>
     <tbody id='fillable'>
         @forelse($people as $person)
             <tr>
                 <td>{{ $person->person_id }}</td>
                 <td>{{ $person->last_name }}, {{ $person->first_name }}</td>
+                @if(isset($person->email_address)) 
+                    <td>{{ $person->email_address }}</td>
+                @else <td>none</td>
+                @endif
                 @if(isset($person->group)) 
                     <td>{{ $person->group->group_name }}</td>
                 @else <td>none</td>
