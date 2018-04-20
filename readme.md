@@ -5,6 +5,7 @@ Just some general information:
 * Most of the files I worked with are in the resources/views directory, the database/migrations directory, the two model files in App/, and the controller in App/Http/Controllers. I also configured web routes in routes/web.php.
 * The database is setup to use a mySQL database called 'breeze_test' with username 'root' and password '77658572'; you can change this in /.env. Once the database is set up, you can migrate in all the tables and columns using `php artisan migrate` from the root directory
 * If you download locally, you can install all dependencies with `composer install`
+* You can serve the project from the /public directory (`php -S localhost:8000 -t public`)
 * Sample CSVs are present in the root directory for your convenience
 * I have the working product available to interact with at [206.189.65.39](http://206.189.65.39)
 
