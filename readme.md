@@ -9,6 +9,12 @@ Just some general information:
 * Sample CSVs are present in the root directory for your convenience
 * I have the working product available to interact with at [206.189.65.39](http://206.189.65.39)
 
+# Updates
+I made the following updates, committing to a branch called 'additions' to seperate from my initial submission. I'm updating my live demo to reflect them, but am keeping the branches separate for the sake of your review. Additions include the following:
+* Addition of custom error messages based on non-standard file uploads
+* Two additional tests to ensure single-record uploads work as intended
+* Addition of the email column to the People table (which I had initially left off)
+
 # Process
 The finished product took about 3.5 hours to complete (though I did have to go in and fix a rather embarrassing bug later in the day), with an additional hour of planning on paper prior to beginning coding not reflected in the commit timestamps. I wanted to keep within your 3-5 hour parameters as best as possible.
 My process included:
